@@ -1,0 +1,39 @@
+import pandas as pd
+class Student:
+    def __init__ (self):
+        self.info=None
+        
+    def get_check_info(self):
+        self.info=input("Enter Student Info (Name/Marks/Mobile Number/Email Id):")
+        self.info=self.info.split(' ')
+        print(f"Name:{self.info[0]}, Marks:{self.info[1]}, Mobile Number:{self.info[2]}, Email:{self.info[3]}")
+        return input("Are the inputs of Student info correct?(yes/no):")
+    
+                
+    def create_df(self,df,idx):
+        return pd.concat([df,pd.DataFrame({'Name':[self.info[0]],'Marks':[self.info[1]],'Mobile Number':[self.info[2]],
+                                                 'Email':[self.info[3]]},index=[idx])])
+               
+def main():
+    df=pd.DataFrame({'Name':['(35 charecters)'],'Marks':['Rounded'],'Mobile Number':['(10 digits)'],
+                                  'Email':['@gmail.com']},index=[])
+    i=1
+    ch=True
+    print("Welcome to Student Information Portal:")
+    while(ch==True):
+        choice=input("Enter yes/no to enter/not enter New Student Information:")
+        if(choice.lower()=='yes'):
+            obj=Student()
+            op=obj.get_check_info()
+            while(op.lower()=='no'):
+                op=obj.get_check_info()
+            df=obj.create_df(df,i)
+            i+=1
+        elif(choice.lower()=='no'):
+            ch=False
+        else:
+            print("Invalid choice")
+
+    student_info=df.to_csv('Student_info.csv')
+    
+main()
